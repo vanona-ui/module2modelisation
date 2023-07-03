@@ -79,12 +79,14 @@ df['M']=np.log(monnaie)
 df["r"]=taux["interetr"]
 df["i"]=taux["interetn"]
 
+# Créer une nouvelle colonne pour Y - T
+df['Y_minus_T'] = df['Y'] - df['T']
+
 
 #Estimation equations de comportement
 
-#
 # Estimation de l'équation de consommation
-consumption_params = estimate_parameters(df['C'], df[['Y', 'T']])
+consumption_params = estimate_parameters(df['C'], df[['Y_minus_T']])
 c0_estimated = consumption_params[0]  # intercept
 c1_estimated = consumption_params[1]  # coefficient de Y-T
 
@@ -95,7 +97,7 @@ h_estimated = -investment_params[1]  # coefficient de r
 
 # Estimation de l'équation de demande de monnaie
 money_demand_params = estimate_parameters(df['M'] - df['P'], df[['Y', 'i']])
-k_estimated = money_demand_params[1]  # coefficient of Y
+k_estimated = money_demand_params[1]  # coefficient de Y
 m1_estimated = -money_demand_params[2]  # coefficient de i 
 
 
